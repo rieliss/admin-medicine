@@ -56,7 +56,6 @@ import { loader as alladminLoader } from "./pages/AllAdmin";
 import { action as deleteAdminAction } from "./pages/DeleteAdmin";
 // import { action as addAdminAction } from "./pages/AddAdmin";
 
-
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);

@@ -1,53 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import {
-  FormRow,
-  FormRowSelect,
-  FormRowMultiSelect,
-} from '../assets/components';
-import Wrapper from '../assets/wrappers/DashboardFormPage';
-import { useLoaderData, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { FormRow, FormRowSelect, SelectM } from "../assets/components";
+import Wrapper from "../assets/wrappers/DashboardFormPage";
+import { useLoaderData, useNavigate, redirect } from "react-router-dom";
 import {
   TYPEPOSTURES,
   CHOOSEPOSTURES,
   TYPESTATUS,
   GENDER,
-} from '../../../utils/constants';
-import { Form, useNavigate, redirect } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import customFetch from '../utils/customFetch';
+} from "../../../utils/constants";
+import { Form } from "react-router-dom";
+import { toast } from "react-toastify";
+import customFetch from "../utils/customFetch";
 
 export const loader = async ({ params }) => {
   try {
     const { _id } = params;
     if (!_id) {
-      throw new Error('Invalid ID');
+      throw new Error("Invalid ID");
     }
     const { data } = await customFetch.get(`/allusers/${_id}`);
     return data;
   } catch (error) {
     toast.error(error.response.data.msg);
-    return redirect('/dashboard/all-patient');
+    return redirect("/dashboard/all-patient");
   }
 };
 
 export const action = async ({ request, params }) => {
   const { _id } = params;
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  console.log(data)
 
-  // แปลงค่าที่เลือกจาก FormRowMultiSelect เป็นอาร์เรย์ของสตริง
-  // if (data.userPosts) {
-  //   data.userPosts = data.userPosts.split(',').map((item) => item.trim());
-  // }
+  const data = {};
+
+  formData.forEach((value, key) => {
+    if (key === "userPosts") {
+      if (!data[key]) data[key] = [];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  });
+
+  if (data.userPosts) {
+    data.userPosts = Array.from(new Set(data.userPosts));
+  }
 
   try {
     if (!_id) {
-      throw new Error('Invalid ID');
+      throw new Error("Invalid ID");
     }
     await customFetch.patch(`/allusers/${_id}`, data);
-    toast.success('แก้ไขข้อมูลคนไข้เรียบร้อยแล้ว');
-    return redirect('/dashboard/all-patient');
+    toast.success("แก้ไขข้อมูลคนไข้เรียบร้อยแล้ว");
+    return redirect("/dashboard/all-patient");
   } catch (error) {
     toast.error(error?.response?.data?.msg);
     return error;
@@ -56,27 +60,27 @@ export const action = async ({ request, params }) => {
 
 const EditPatient = () => {
   const { patient } = useLoaderData();
-
   const navigation = useNavigate();
-  const isSubmitting = navigation.state === 'submitting';
+  const isSubmitting = navigation.state === "submitting";
+
   const [selectedUserGender, setSelectedUserGender] = useState(
-    patient.userGender || ''
+    patient.userGender || ""
   );
   const [selectedUserType, setSelectedUserType] = useState(
-    patient.userType || ''
+    patient.userType || ""
   );
-  // const [selectedUserPosts, setSelectedUserPosts] = useState(
-  //   patient.userPosts || []
-  // );
+  const [selectedUserPosts, setSelectedUserPosts] = useState(
+    patient.userPosts || []
+  );
   const [selectedUserStatus, setSelectedUserStatus] = useState(
-    patient.userStatus || ''
+    patient.userStatus || ""
   );
   const [postures, setPostures] = useState([]);
 
   useEffect(() => {
     const fetchPostures = async () => {
       try {
-        const { data } = await customFetch.get('/postures');
+        const { data } = await customFetch.get("/postures");
         setPostures(data.postures);
       } catch (error) {
         toast.error(error?.response?.data?.msg);
@@ -91,39 +95,39 @@ const EditPatient = () => {
     setSelectedUserStatus(event.target.value);
   };
 
-  // const handleUserPostsChange = (selectedOptions) => {
-  //   setSelectedUserPosts(selectedOptions.map((option) => option.value));
-  // };
+  const handleUserPostsChange = (selectedOptions) => {
+    setSelectedUserPosts(selectedOptions || []);
+  };
 
   return (
     <Wrapper>
-      <Form method='post' className='form'>
-        <h4 className='form-title'>แก้ไขข้อมูลคนไข้</h4>
-        <div className='form-center'>
+      <Form method="post" className="form">
+        <h4 className="form-title">แก้ไขข้อมูลคนไข้</h4>
+        <div className="form-center">
           <FormRow
-            type='text'
-            name='idNumber'
-            labelText='หมายเลขบัตรประชาชน'
-            pattern='[0-9]*'
+            type="text"
+            name="idNumber"
+            labelText="หมายเลขบัตรประชาชน"
+            pattern="[0-9]*"
             defaultValue={patient.idNumber}
           />
           <FormRow
-            type='text'
-            name='idPatient'
-            labelText='หมายเลขผู้ป่วย'
-            pattern='[0-9]*'
+            type="text"
+            name="idPatient"
+            labelText="หมายเลขผู้ป่วย"
+            pattern="[0-9]*"
             defaultValue={patient.idPatient}
           />
           <FormRow
-            type='text'
-            name='namePatient'
-            labelText='ชื่อผู้ป่วย'
+            type="text"
+            name="namePatient"
+            labelText="ชื่อผู้ป่วย"
             defaultValue={patient.namePatient}
           />
 
           <FormRowSelect
-            labelText='เพศ'
-            name='userGender'
+            labelText="เพศ"
+            name="userGender"
             value={selectedUserGender}
             onChange={handleUserTypeChange}
             list={Object.values(GENDER)}
@@ -131,8 +135,8 @@ const EditPatient = () => {
           />
 
           <FormRowSelect
-            labelText='ชื่อประเภทของท่ากายภาพบำบัด'
-            name='userType'
+            labelText="ชื่อประเภทของท่ากายภาพบำบัด"
+            name="userType"
             value={selectedUserType}
             onChange={handleUserTypeChange}
             list={Object.values(TYPEPOSTURES)}
@@ -140,34 +144,32 @@ const EditPatient = () => {
           />
 
           <FormRowSelect
-            labelText='เลือกสถานะปัจจุบันของคนไข้'
-            name='userStatus'
+            labelText="เลือกสถานะปัจจุบันของคนไข้"
+            name="userStatus"
             value={selectedUserStatus}
             onChange={handleUserTypeChange}
             list={Object.values(TYPESTATUS)}
             defaultValue={patient.userStatus}
           />
-{/* 
-          <FormRowMultiSelect
-            name='userPosts'
-            labelText='เลือกท่ากายภาพบำบัด'
-            value={selectedUserPosts}
-            options={['ท่าทั้งหมด', ...postures.map((p) => p.namePostures)]}
-            defaultValue={patient.userPosts}
-            onChange={handleUserPostsChange}
-          /> */}
 
-          {/* <br /> */}
+          <SelectM
+            name="userPosts"
+            labelText="เลือกท่ากายภาพบำบัด"
+            value={selectedUserPosts}
+            options={[...CHOOSEPOSTURES.map((p) => ({ label: p, value: p }))]}
+            onChange={handleUserPostsChange}
+          />
           <button
-            type='submit'
-            className='btn btn-block form-btn '
+            type="submit"
+            className="btn btn-block form-btn"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'submitting...' : 'submit'}
+            {isSubmitting ? "submitting..." : "submit"}
           </button>
         </div>
       </Form>
     </Wrapper>
   );
 };
+
 export default EditPatient;

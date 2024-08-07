@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
-import { TYPEPOSTURES, CHOOSEPOSTURES, TYPESTATUS, GENDER } from "../utils/constants.js";
+import {
+  TYPEPOSTURES,
+  CHOOSEPOSTURES,
+  TYPESTATUS,
+  GENDER,
+} from "../utils/constants.js";
 
 const PatientSchema = new mongoose.Schema(
   {
@@ -16,7 +21,11 @@ const PatientSchema = new mongoose.Schema(
       enum: Object.values(TYPEPOSTURES),
       default: TYPEPOSTURES.TYPE_1,
     },
-    userPosts: String,
+    userPosts: {
+      type: [String],
+      enum: Object.values(CHOOSEPOSTURES),
+      default: [],
+    },
     userStatus: {
       type: String,
       enum: Object.values(TYPESTATUS),

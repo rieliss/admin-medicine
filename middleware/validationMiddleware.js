@@ -9,14 +9,13 @@ import {
   CHOOSEPOSTURES,
   TYPESTATUS,
   PREFIXDOCTOR,
-  GENDER
+  GENDER,
 } from "../utils/constants.js";
 import mongoose from "mongoose";
 import Patient from "../models/PatientModel.js";
 import Posture from "../models/PostureModel.js";
 import Doctor from "../models/DoctorModel.js";
 import User from "../models/UserModel.js";
-
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -74,11 +73,9 @@ export const validatePatientInput = withValidationErrors([
     .notEmpty()
     .isIn(Object.values(TYPEPOSTURES))
     .withMessage("โปรดเลือกชื่อประเภทท่ากายภาพบำบัดให้ถูกต้อง"),
-  body("userPosts")
-    .notEmpty()
-    // .isIn(Object.values(CHOOSEPOSTURES))
-    // .withMessage("โปรดเลือกท่ากายภาพบำบัดให้ถูกต้อง")
-    ,
+  body("userPosts").notEmpty(),
+  // .isIn(Object.values(CHOOSEPOSTURES))
+  // .withMessage("โปรดเลือกท่ากายภาพบำบัดให้ถูกต้อง")
   body("userStatus")
     .notEmpty()
     .isIn(Object.values(TYPESTATUS))
@@ -124,7 +121,6 @@ export const validateDoctorInput = withValidationErrors([
     .isIn(Object.values(PREFIXDOCTOR))
     .withMessage("โปรดเลือกคำนำหน้าชื่อให้ถูกต้อง"),
 ]);
-
 
 export const validateIdParam = withValidationErrors([
   param("_id").custom(async (value, { req }) => {
@@ -177,7 +173,6 @@ export const validateIdParam4 = withValidationErrors([
       throw new UnauthorizedError("not authorized to access this route");
   }),
 ]);
-
 
 export const validateRegisterInput = withValidationErrors([
   // โค้ด validateRegisterInput นี่เราไม่ได้แก้ไขใด ๆ

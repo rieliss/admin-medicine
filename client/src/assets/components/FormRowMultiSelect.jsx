@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Select, { components } from 'react-select';
-import Wrapper from '../wrappers/FormRowMultiSelect';
+import React, { useState } from "react";
+import Select, { components } from "react-select";
+import Wrapper from "../wrappers/FormRowMultiSelect";
 
 const FormRowMultiSelect = ({
   name,
@@ -10,7 +10,7 @@ const FormRowMultiSelect = ({
   defaultValue = [],
 }) => {
   const isOptionAllSelected = (selectedOptions) => {
-    return selectedOptions.some((option) => option.value === 'ท่าทั้งหมด');
+    return selectedOptions.some((option) => option.value === "ท่าทั้งหมด");
   };
 
   const formattedOptions = options.map((option) => ({
@@ -50,10 +50,10 @@ const FormRowMultiSelect = ({
       <div>
         <components.Option {...props}>
           <input
-            type='checkbox'
+            type="checkbox"
             checked={props.isSelected}
             onChange={() => null}
-          />{' '}
+          />{" "}
           <label>{props.label}</label>
         </components.Option>
       </div>
@@ -62,8 +62,8 @@ const FormRowMultiSelect = ({
 
   return (
     <Wrapper>
-      <div className='form-row'>
-        <label htmlFor={name} className='form-label'>
+      <div className="form-row">
+        <label htmlFor={name} className="form-label">
           {labelText || name}
         </label>
         <Select
@@ -77,8 +77,8 @@ const FormRowMultiSelect = ({
           onChange={handleSelectChange}
           options={formattedOptions}
           value={selectedPostures}
-          className='basic-multi-select'
-          classNamePrefix='select'
+          className="basic-multi-select"
+          classNamePrefix="select"
         />
       </div>
     </Wrapper>

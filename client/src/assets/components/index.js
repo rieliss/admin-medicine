@@ -5,6 +5,8 @@ export { default as SmallSidebar } from "./SmallSidebar";
 export { default as Navbar } from "./Navbar";
 export { default as FormRowSelect } from "./FormRowSelect";
 export { default as FormRowMultiSelect } from "./FormRowMultiSelect";
+export { default as SelectMultiFunction } from "./SelectMultiFunction";
+export { default as SelectM } from "./SelectM";
 export { default as PatientContainer } from "./PatientsContainer";
 export { default as SearchContainer } from "./SearchContainer";
 export { default as StatItem } from "./StatItem";
@@ -19,9 +21,3 @@ export { default as DeletePosture } from "./DeletePosture";
 export { default as DeletedPatient } from "./DeletedPatient";
 export { default as DeletedDoctor } from "./DeletedDoctor";
 export { default as DeletedAdmin } from "./DeletedAdmin";
-
-
-
-
-
-

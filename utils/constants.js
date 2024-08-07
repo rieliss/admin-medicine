@@ -3,7 +3,6 @@ export const TYPEPOSTURES = {
 };
 
 export const CHOOSEPOSTURES = [
-  "ท่าทั้งหมด",
   "ท่าที่ 1",
   "ท่าที่ 2",
   "ท่าที่ 3",
@@ -25,7 +24,7 @@ export const PREFIXDOCTOR = {
 export const GENDER = {
   GENDER_01: "ชาย",
   GENDER_02: "หญิง",
-}
+};
 
 export const POSTURES_SORT_BY = {
   NEWEST_FIRST: "newest",

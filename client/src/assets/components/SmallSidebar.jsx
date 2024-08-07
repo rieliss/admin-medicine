@@ -8,7 +8,7 @@ import toggleSidebar from "./Navbar";
 
 const SmallSidebar = () => {
   const data = useDashboardContext();
-  console.log(data);
+  // console.log(data);
 
   return (
     <Wrapper>

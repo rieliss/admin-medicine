@@ -7,7 +7,6 @@ import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-
 export const loader = async () => {
   try {
     const { data } = await customFetch("/users/current-user");
@@ -22,7 +21,7 @@ const DashboardContext = createContext();
 const DashboardLayout = ({ isDarkThemeEnabled }) => {
   const navigate = useNavigate();
   const data = useLoaderData();
-  console.log(data);
+  // console.log(data);
   // temp
   const user = { name: "Manipha" };
   const [showSidebar, setShowSidebar] = useState(false);
