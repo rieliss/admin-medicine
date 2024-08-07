@@ -101,6 +101,7 @@ export const action = async ({ request }) => {
     toast.success("เพิ่มข้อมูลคนไข้เรียบร้อยแล้ว");
     return redirect("/dashboard/all-patient");
   } catch (error) {
+    console.log("error", error);
     toast.error(error?.response?.data?.msg);
     return error;
   }
